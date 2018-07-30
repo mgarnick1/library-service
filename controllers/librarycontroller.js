@@ -8,22 +8,22 @@ router.use(bodyParser.urlencoded({extended: true, limit: '3gb' }));
 
 
 // CREATES A NEW BOOK IN LIBRARY
-router.post('/', function (req, res) {
-  Library.create({
-      Cover : req.body.Cover,
-      Title : req.body.Title,
-      Author : req.body.Author,
-      Number_Of_Pages : req.body.Number_Of_Pages,
-      Publish_Date : new Date(req.body.Publish_Date.toString()),
-      Synopsis: req.body.Synopsis,
-      Rating: req.body.Rating,
-      Delete: req.body.Delete
-    },
-    function (err, book) {
-      if (err) return res.status(500).send("There was a problem adding the information to the database.");
-      res.status(200).send(book);
-    });
-  });
+// router.post('/', function (req, res) {
+//   Library.create({
+//       Cover : req.body.Cover,
+//       Title : req.body.Title,
+//       Author : req.body.Author,
+//       Number_Of_Pages : req.body.Number_Of_Pages,
+//       Publish_Date : new Date(req.body.Publish_Date.toString()),
+//       Synopsis: req.body.Synopsis,
+//       Rating: req.body.Rating,
+//       Delete: req.body.Delete
+//     },
+//     function (err, book) {
+//       if (err) return res.status(500).send("There was a problem adding the information to the database.");
+//       res.status(200).send(book);
+//     });
+//   });
 
 router.get('/', function(req, res) {
   console.log('hit');
@@ -56,5 +56,13 @@ router.put('/:id', function(req, res) {
   });
 });
 
+router.post('/', function (req, res) {
+  // pay attention to serialization and deserialization. turn it back into json. use JSON.parse(req.body.books)
+  Library.collection.insert(JSON.parse(req.body.books),
+    function (err, book) {
+      if (err) return res.status(500).send("There was a problem adding the information to the database.");
+      res.status(200).send(book);
+    });
+  });
 
 module.exports = router;

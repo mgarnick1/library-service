@@ -4,7 +4,7 @@ var LibrarySchema = new mongoose.Schema({
   Title: String,
   Author: String,
   Number_Of_Pages: Number,
-  Publish_Date: Date,
+  Publish_Date: String,
   Synopsis: String,
   Rating: String,
   Delete: String
