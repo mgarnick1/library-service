@@ -10,6 +10,7 @@ var LibrarySchema = new mongoose.Schema({
   Delete: String
 });
 
+// LibrarySchema.index({'$**': 'text'});
 
 mongoose.model('Library', LibrarySchema);
 

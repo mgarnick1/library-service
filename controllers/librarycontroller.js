@@ -65,4 +65,15 @@ router.post('/', function (req, res) {
     });
   });
 
+router.get('/search/:search', function(req,res) {
+  // console.log("this happened!");
+  // Library.collection.createIndex({Title: 'text', Author: 'text'});
+  // console.log(req.params.search);
+  Library.aggregate([{$match: {$text: {$search: req.params.search}}}],
+  function (err, book) {
+    if (err) return res.status(500).send("There was a problem adding the information to the database.");
+    res.status(200).send(book);
+  })
+});
+
 module.exports = router;
