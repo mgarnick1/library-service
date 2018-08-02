@@ -40,6 +40,19 @@ router.get('/:id', function(req, res) {
   });
 });
 
+router.get('/paginate/:page/:numberResults/', function(req, res) {
+    var perPage = parseInt(req.params.numberResults);
+    var page = req.params.page || 1;
+    console.log(page);
+
+    Library.find({}).skip((perPage * page) - perPage).limit(perPage).exec(function(err, books) {
+      Library.estimatedDocumentCount().exec(function(err, count) {
+      if (err) return res.status(500).send('There was a problem finding books in the Library.');
+      res.status(200).send(books);
+      })
+    })
+  })
+
 router.delete('/:id', function (req, res) {
     Library.findByIdAndRemove(req.params.id, function (err, book) {
         if (err) return res.status(500).send("There was a problem deleting the book.");
@@ -67,7 +80,7 @@ router.post('/', function (req, res) {
 
 router.get('/search/:search', function(req,res) {
   // console.log("this happened!");
-  // Library.collection.createIndex({Title: 'text', Author: 'text'});
+  // Library.collection.createIndex({Title: 'text'}, {Author: 'text'});
   // console.log(req.params.search);
   // Library.find({ $or: [{title: req.params.search},{author: }]}, function(){
   //   if (err) return res.status(500).send("There was a problem adding the information to the database.");
