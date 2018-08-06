@@ -83,7 +83,7 @@ router.get('/search/:search', function(req,res) {
   // Library.collection.createIndex({Title: 'text'}, {Author: 'text'});
   let text = req.params.search, format = new RegExp(text), match = { $regex: format, $options: 'igx' }
   let searchProps = [{Title: match}, {Author: match}, {Publish_Date: match}];
-  Library.find({ $or: searchProps}, function(err, book){
+  Library.find({ $or: searchProps}, function(err, book) {
   //   if (err) return res.status(500).send("There was a problem adding the information to the database.");
   //   res.status(200).send(book);
   // });
